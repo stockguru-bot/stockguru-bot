@@ -1,0 +1,24 @@
+name: StockGuru 财经快讯
+
+on:
+  schedule:
+    - cron: '30 4 * * *'
+    - cron: '30 7 * * *'
+    - cron: '30 10 * * *'
+    - cron: '30 13 * * *'
+  workflow_dispatch:
+
+jobs:
+  send-news:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 运行快讯脚本
+        run: python stockguru_news.py
