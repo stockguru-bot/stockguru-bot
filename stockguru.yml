@@ -1,0 +1,27 @@
+name: StockGuru 财经快讯
+
+on:
+  schedule:
+    - cron: '30 4 * * *'   # 12:30 CST 午间快讯
+    - cron: '30 7 * * *'   # 15:30 CST 下午快讯
+    - cron: '30 10 * * *'  # 18:30 CST 晚间快讯
+    - cron: '30 13 * * *'  # 21:30 CST 夜盘快讯
+  workflow_dispatch:        # 手动触发
+
+jobs:
+  send-news:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安装依赖
+        run: pip install yfinance
+
+      - name: 运行快讯脚本
+        run: python stockguru_news.py
